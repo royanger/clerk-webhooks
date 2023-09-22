@@ -1,3 +1,4 @@
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -15,8 +16,26 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+
+          <div className="w-full min-h-screen flex flex-col items-center bg-sky-50/50">
+            <header className="container flex flex-row bg-sky-300 py-6 px-8">
+              <h1 className="grow text-gray-900 text-3xl">Webhooks</h1>
+              <div className="">
+                <SignedIn>
+                  <UserButton afterSignOutUrl='/' />
+                </SignedIn>
+                <SignedOut>
+                  <SignInButton />
+                </SignedOut>
+              </div>
+            </header>
+            {children}
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
